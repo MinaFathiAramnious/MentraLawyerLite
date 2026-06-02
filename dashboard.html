@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1E3A8A">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" href="assets/log.png">
+    <title>MentraLawyer Local | لوحة تحكم المكتب</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap"></noscript>
+
+    <script src="assets/Tailwind.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    
+    <script crossorigin src="assets/react.production.min.js"></script>
+    <script crossorigin src="assets/react-dom.production.min.js"></script>
+    <script src="assets/babel.min.js"></script>
+    <script src="assets/dexie.min.js"></script>
+
+    <script src="database.js"></script>
+
+    <style>
+        body { font-family: 'Cairo', sans-serif; background: #F8FAFC; overflow: hidden; -webkit-tap-highlight-color: transparent; }
+        .nav-active { background: rgba(255,255,255,0.1); border-right: 4px solid #D4AF37; color: #D4AF37; font-weight: 900; }
+        .nav-active i { color: #D4AF37; }
+        .animate-view { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .toast-enter { animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes slideUp { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translate(-50%, 0); } }
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-slate-50">
+    <div id="initial-loader" style="position: fixed; inset: 0; background: #F8FAFC; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.4s ease;">
+        <div style="width:56px;height:56px;background:linear-gradient(135deg,#D4AF37,#ca8a04);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;box-shadow:0 8px 25px rgba(212,175,55,0.35)">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+        </div>
+        <div style="width: 56px; height: 56px; border: 5px solid #E2E8F0; border-top-color: #1E3A8A; border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
+        <p style="margin-top:16px;font-family:system-ui,sans-serif;font-weight:700;color:#64748B;font-size:14px">جاري تحميل البرنامج...</p>
+    </div>
+    <script>
+        var loaderEl = document.getElementById("initial-loader");
+        document.addEventListener("DOMContentLoaded", function() {
+            var root = document.getElementById("root");
+            if (!root) return;
+            var loaderObserver = new MutationObserver(function() {
+                if (root.children.length > 0) {
+                    loaderEl.style.opacity = "0";
+                    setTimeout(function(){ loaderEl.remove(); }, 500);
+                    loaderObserver.disconnect();
+                }
+            });
+            loaderObserver.observe(root, { childList: true });
+        });
+    </script>
+    
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // جعل الـ Hooks متاحة عالمياً (Globally) لكل شاشات البرنامج
+        window.useState = React.useState;
+        window.useEffect = React.useEffect;
+        window.useCallback = React.useCallback;
+        window.useRef = React.useRef;
+        window.useMemo = React.useMemo;
+        window.liveQuery = Dexie.liveQuery;
+
+        window.useLiveQuery = function(querier, deps = []) {
+            const [value, setValue] = React.useState(undefined);
+            React.useEffect(() => {
+                if(!window.db) return;
+                const subscription = Dexie.liveQuery(querier).subscribe({
+                    next: val => setValue(val),
+                    error: err => console.error("DB Error:", err)
+                });
+                return () => subscription.unsubscribe();
+            }, deps);
+            return value;
+        };
+
+        class ErrorBoundary extends React.Component {
+            constructor(props) { super(props); this.state = { hasError: false, error: null }; }
+            static getDerivedStateFromError(error) { return { hasError: true, error }; }
+            render() {
+                if (this.state.hasError) {
+                    return (
+                        <div className="flex flex-col items-center justify-center h-screen bg-slate-50 p-6 text-center">
+                            <i className="fas fa-exclamation-triangle text-6xl text-rose-500 mb-4"></i>
+                            <h2 className="text-2xl font-black text-slate-800">حدث خطأ تقني</h2>
+                            <p className="text-slate-500 mt-2 text-sm">{String(this.state.error)}</p>
+                            <button onClick={() => window.location.reload()} className="bg-[#1E3A8A] text-white px-6 py-2 rounded-xl mt-4 font-bold">إعادة المحاولة</button>
+                        </div>
+                    );
+                }
+                return this.props.children;
+            }
+        }
+
+        function Toast({ message, type, onClose }) {
+            const colors = type === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-500' : 'bg-rose-50 text-rose-700 border-rose-500';
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-times-circle';
+            React.useEffect(() => { const t = setTimeout(onClose, 3000); return () => clearTimeout(t); },[]);
+            return (
+                <div className={`fixed bottom-20 md:bottom-10 left-1/2 -translate-x-1/2 z-[999] toast-enter w-[90%] max-w-sm`}>
+                    <div className={`${colors} border-l-4 p-4 rounded-xl shadow-2xl flex items-center gap-3`}>
+                        <i className={`fas ${icon} text-xl`}></i>
+                        <p className="font-bold text-sm flex-1">{message}</p>
+                    </div>
+                </div>
+            );
+        }
+
+        const Menu_Matrix = {
+            'main':       { roles: ['owner', 'senior_lawyer', 'junior_lawyer', 'secretary'], title: 'الرئيسية', icon: 'fa-chart-pie', componentName: 'Module_Main' },
+            'agenda':     { roles: ['owner', 'senior_lawyer', 'junior_lawyer', 'secretary'], title: 'أجندة الجلسات', icon: 'fa-calendar-alt', componentName: 'Module_Agenda' },
+            'cases':      { roles: ['owner', 'senior_lawyer', 'junior_lawyer', 'secretary'], title: 'سجل القضايا', icon: 'fa-gavel', componentName: 'Module_Cases' },
+            'clients':    { roles: ['owner', 'senior_lawyer', 'secretary'], title: 'الموكلين والتوكيلات', icon: 'fa-users', componentName: 'Module_Clients' },
+            'documents':  { roles: ['owner', 'senior_lawyer', 'junior_lawyer', 'secretary'], title: 'المذكرات والمرافعات', icon: 'fa-file-contract', componentName: 'Module_Documents' },
+            'accounting': { roles: ['owner', 'secretary'], title: 'الحسابات والمصاريف', icon: 'fa-file-invoice-dollar', componentName: 'Module_Accounting' },
+            'settings':   { roles: ['owner'], title: 'إعدادات المكتب', icon: 'fa-cog', componentName: 'Module_Settings' },
+            'backup':     { roles: ['owner', 'senior_lawyer'], title: 'النسخ الاحتياطي', icon: 'fa-database', componentName: 'Module_Backup' }
+        };
+
+        const Role_Names = {
+            'owner': 'مدير المكتب',
+            'senior_lawyer': 'محامي ابتدائي/استئناف',
+            'junior_lawyer': 'محامي متدرب',
+            'secretary': 'سكرتير/ة إداري/ة'
+        };
+
+        function DashboardApp() {
+            const [session, setSession] = React.useState(null);
+            const [activeModule, setActiveModule] = React.useState('main');
+            const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
+            const [toast, setToast] = React.useState(null);
+            const [isModuleLoading, setIsModuleLoading] = React.useState(true);
+            const [forceRender, setForceRender] = React.useState(0);
+
+            const showToast = (message, type = 'success') => setToast({ message, type, id: Date.now() });
+
+            React.useEffect(() => {
+                const savedSession = localStorage.getItem('MentraLocal_Session');
+                if (!savedSession) window.location.replace('subscriptions.html');
+                else setSession(JSON.parse(savedSession));
+            },[]);
+
+            React.useEffect(() => {
+                const loadActiveModule = async () => {
+                    const cfg = Menu_Matrix[activeModule];
+                    if (!cfg) return;
+
+                    const compName = cfg.componentName;
+                    if (window[compName]) {
+                        setIsModuleLoading(false);
+                        return;
+                    }
+
+                    setIsModuleLoading(true);
+                    try {
+                        let jsxCode = "";
+                        const isElectron = typeof window !== 'undefined' && typeof window.require !== 'undefined';
+
+                        if (isElectron) {
+                            const fs = window.require('fs');
+                            const path = window.require('path');
+                            let basePath = window.location.pathname;
+                            if (process.platform === 'win32' && basePath.startsWith('/')) {
+                                basePath = basePath.substring(1);
+                            }
+                            const dirPath = path.dirname(decodeURI(basePath));
+                            const filePath = path.join(dirPath, 'pages', `${activeModule}.js`);
+
+                            if (!fs.existsSync(filePath)) throw new Error(`الملف غير موجود: ${filePath}`);
+                            jsxCode = fs.readFileSync(filePath, 'utf-8');
+                        } else {
+                            const response = await fetch(`pages/${activeModule}.js`);
+                            if (!response.ok) throw new Error("ملف الشاشة غير موجود");
+                            jsxCode = await response.text();
+                        }
+
+                        // 🔥 الحل البرمجي السحري لمنع تعارض المتغيرات 🔥
+                        // نقوم أوتوماتيكياً بمسح تعريفات const { useState } وما شابهها من الملفات المجلوبة قبل تشغيلها
+                        jsxCode = jsxCode.replace(/(?:const|let|var)\s*\{[^}]*\}\s*=\s*(?:React|Dexie)[^;\n]*;?/g, "");
+
+                        const compiledCode = Babel.transform(jsxCode, { presets: ['react'] }).code;
+
+                        const script = document.createElement('script');
+                        script.type = 'text/javascript';
+                        script.text = compiledCode;
+                        document.body.appendChild(script);
+
+                        setTimeout(() => {
+                            setIsModuleLoading(false);
+                            setForceRender(prev => prev + 1);
+                        }, 50);
+
+                    } catch (error) {
+                        console.error("خطأ في تحميل الشاشة:", error);
+                        showToast("تعذر تحميل هذه الشاشة. تأكد من وجود الملف.", "error");
+                        setIsModuleLoading(false);
+                    }
+                };
+
+                loadActiveModule();
+            }, [activeModule]);
+
+            const handleLogout = () => {
+                if(confirm("سيتم إغلاق الجلسة المحلية. هل توافق؟")) {
+                    localStorage.removeItem('MentraLocal_Session');
+                    window.location.replace('subscriptions.html');
+                }
+            };
+
+            if (!session) return null;
+
+            const allowedMenus = Object.entries(Menu_Matrix).filter(([id, cfg]) => cfg.roles.includes(session.role));
+            const activeComponentName = Menu_Matrix[activeModule]?.componentName;
+            const ActiveComponent = window[activeComponentName];
+
+            return (
+                <div className="flex h-screen w-full relative bg-slate-50">
+                    {toast && <Toast key={toast.id} message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+                    
+                    <div onClick={() => setIsSidebarOpen(false)} className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-[90] md:hidden transition-opacity ${isSidebarOpen ? 'opacity-100 block' : 'opacity-0 hidden'}`}></div>
+
+                    <aside className={`w-72 bg-[#0B1120] text-slate-300 flex flex-col shadow-2xl fixed inset-y-0 right-0 z-[100] transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 border-l border-white/5 ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+                        <div className="h-20 flex items-center px-6 gap-3 border-b border-slate-800/50">
+                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#D4AF37] to-yellow-600 flex items-center justify-center text-white shadow-lg"><i className="fas fa-balance-scale text-xl"></i></div>
+                            <span className="text-white font-black text-2xl tracking-tight">Mentra<span className="text-[#D4AF37]">LawyerLite</span></span>
+                        </div>
+
+                        <nav className="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
+                            {allowedMenus.map(([id, cfg]) => (
+                                <button key={id} onClick={() => { setActiveModule(id); setIsSidebarOpen(false); }} className={`w-full flex items-center gap-4 p-4 rounded-2xl transition-all duration-200 ${activeModule === id ? 'nav-active bg-white/5' : 'text-slate-400 hover:bg-white/5 hover:text-white'}`}>
+                                    <i className={`fas ${cfg.icon} w-6 text-center text-xl`}></i>
+                                    <span className="text-sm font-bold">{cfg.title}</span>
+                                </button>
+                            ))}
+                        </nav>
+
+                        <div className="p-5 bg-slate-900/50 border-t border-slate-800/50">
+                            <div className="flex items-center gap-3 mb-4">
+                                <div className="w-12 h-12 rounded-full bg-[#1E3A8A] text-white flex items-center justify-center font-black text-xl shadow-inner border border-[#D4AF37]/30">{session.name.charAt(0)}</div>
+                                <div className="flex-1 overflow-hidden">
+                                    <p className="text-sm font-black text-white truncate">{session.name}</p>
+                                    <p className="text-[11px] text-[#D4AF37] font-bold tracking-widest mt-0.5">{Role_Names[session.role]}</p>
+                                </div>
+                            </div>
+                            <button onClick={handleLogout} className="w-full py-3 text-rose-400 bg-rose-500/10 rounded-xl font-bold text-sm hover:bg-rose-500 hover:text-white transition-all">
+                                <i className="fas fa-power-off ml-2"></i> إغلاق الجلسة
+                            </button>
+                        </div>
+                    </aside>
+
+                    <main className="flex-1 flex flex-col min-w-0">
+                        <header className="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-6 z-40 sticky top-0">
+                            <div className="flex items-center gap-4">
+                                <button onClick={() => setIsSidebarOpen(true)} className="md:hidden w-10 h-10 flex items-center justify-center text-slate-600 rounded-xl bg-slate-100 hover:bg-slate-200"><i className="fas fa-bars text-lg"></i></button>
+                                <div>
+                                    <h2 className="font-black text-[#1E3A8A] text-xl md:text-2xl">{Menu_Matrix[activeModule]?.title}</h2>
+                                    <p className="text-[10px] md:text-xs text-slate-400 font-bold mt-0.5"><i className="fas fa-building text-[#D4AF37] ml-1"></i> {session.firm_name}</p>
+                                </div>
+                            </div>
+                        </header>
+
+                        <div className="flex-1 overflow-y-auto p-4 md:p-8 pb-24 md:pb-8 relative">
+                            <div className="max-w-7xl mx-auto animate-view h-full">
+                                {isModuleLoading ? (
+                                    <div className="flex flex-col items-center justify-center h-64 text-slate-400">
+                                        <i className="fas fa-circle-notch fa-spin text-4xl text-[#D4AF37] mb-4"></i>
+                                        <p className="font-bold">جاري تحميل البيانات...</p>
+                                    </div>
+                                ) : ActiveComponent ? (
+                                    <ActiveComponent firmId={session.firm_id} showToast={showToast} />
+                                ) : (
+                                    <div className="p-10 text-center bg-white rounded-3xl border border-slate-100 shadow-sm">
+                                        <i className="fas fa-hammer text-4xl text-slate-300 mb-4"></i>
+                                        <h3 className="text-xl font-bold text-[#1E3A8A]">الشاشة قيد البرمجة</h3>
+                                        <p className="text-slate-400 mt-2 text-sm">سيتم إضافة هذه الميزة قريباً.</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* شريط الموبايل السفلي */}
+                        <div className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-slate-200 flex items-center justify-around z-50 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] pb-safe">
+                            <button onClick={() => setActiveModule('main')} className={`flex flex-col items-center gap-1 w-16 ${activeModule === 'main' ? 'text-[#1E3A8A]' : 'text-slate-400'}`}>
+                                <i className="fas fa-home text-xl"></i>
+                                <span className="text-[9px] font-bold">الرئيسية</span>
+                            </button>
+                            <button onClick={() => setActiveModule('agenda')} className="flex flex-col items-center gap-1 w-16 text-slate-400 relative">
+                                <div className={`w-14 h-14 rounded-full flex items-center justify-center -mt-10 shadow-lg border-4 border-slate-50 transition-colors ${activeModule === 'agenda' ? 'bg-gradient-to-r from-[#D4AF37] to-yellow-500 text-white' : 'bg-[#1E3A8A] text-white'}`}>
+                                    <i className="fas fa-calendar-alt text-2xl"></i>
+                                </div>
+                                <span className={`text-[9px] font-bold mt-1 ${activeModule === 'agenda' ? 'text-[#1E3A8A]' : 'text-slate-400'}`}>الأجندة</span>
+                            </button>
+                            <button onClick={() => setActiveModule('cases')} className={`flex flex-col items-center gap-1 w-16 ${activeModule === 'cases' ? 'text-[#1E3A8A]' : 'text-slate-400'}`}>
+                                <i className="fas fa-gavel text-xl"></i>
+                                <span className="text-[9px] font-bold">القضايا</span>
+                            </button>
+                        </div>
+                    </main>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<ErrorBoundary><DashboardApp /></ErrorBoundary>);
+    </script>
+    
+    <script>
+    const isElectronEnv = typeof window !== 'undefined' && typeof window.require !== 'undefined';
+    
+    if ('serviceWorker' in navigator && !isElectronEnv) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw-v1.js', { updateViaCache: 'none' })
+                .then((registration) => {
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        if (newWorker) {
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    window.location.reload();
+                                }
+                            });
+                        }
+                    });
+                }).catch(() => {});
+        });
+
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (!refreshing) {
+                window.location.reload();
+                refreshing = true;
+            }
+        });
+    }
+    </script>
+</body>
+</html>

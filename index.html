@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <!-- تحسين التحميل: preconnect لكل CDN مستخدم -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap"></noscript>
+
+    <!-- إعدادات أساسية لتبدو كبرنامج موبايل -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- تلوين شريط الإشعارات في الأندرويد -->
+    <meta name="theme-color" content="#1E3A8A">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="description" content="MentraLawyer - برنامج إدارة مكاتب المحاماة المجاني. يعمل بدون إنترنت ويحفظ بياناتك على جهازك بأمان تام.">
+    <title>MentraLawyer | النسخة المجانية (Offline)</title>
+    
+    <!-- ================= PWA Settings (تم التحديث) ================= -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0284C7">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <meta name="description" content="حمل واعمل فوراً. MentraLawyer هو برنامج مجاني لإدارة مكاتب المحاماة وإدارة القضايا والتوكيلات، يعمل بدون إنترنت مع ضمان سرية البيانات بنسبة 100% على جهازك الشخصي.">
+    <title>MentraLawyer | برنامج إدارة مكاتب المحاماة المجاني (Lite)</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="assets/log.png">
+	<link rel="apple-touch-icon" href="assets/log.png">
+
+    <script src="assets/Tailwind.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    
+    <meta name="keywords" content="برنامج محاماة مجاني, إدارة مكاتب المحاماة, برنامج محامين, ادارة القضايا, اجندة المحامي, تطبيق محاماة, MentraLawyer">
+    <meta name="author" content="MentraLawyer">
+    
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://minafathiaramnious.github.io/MentraLawyerLite/"> <meta property="og:title" content="MentraLawyer | برنامج إدارة مكاتب المحاماة المجاني">
+    <meta property="og:description" content="إدارة قضاياك وعملائك بخصوصية تامة بدون إنترنت. ابدأ الآن مجاناً.">
+    <meta property="og:image" content="https://minafathiaramnious.github.io/MentraLawyerLite/assets/log.png">
+    <meta property="og:url" content="https://minafathiaramnious.github.io/MentraLawyerLite/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="MentraLawyerLite"> <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MentraLawyer | برنامج إدارة مكاتب المحاماة المجاني">
+    <meta name="twitter:description" content="إدارة قضاياك وعملائك بخصوصية تامة بدون إنترنت. ابدأ الآن مجاناً.">
+    <meta name="twitter:image" content="https://minafathiaramnious.github.io/MentraLawyerLite/assets/log.png">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://minafathiaramnious.github.io/MentraLawyerLite/#website",
+          "url": "https://minafathiaramnious.github.io/MentraLawyerLite/",
+          "name": "MentraLawyerLite",
+          "alternateName": "Mentra Lawyer Lite",
+          "description": "برنامج إدارة مكاتب المحاماة المجاني",
+          "inLanguage": "ar"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "MentraLawyer Lite",
+          "operatingSystem": "Web, Windows, Android",
+          "applicationCategory": "BusinessApplication",
+          "description": "برنامج مجاني لإدارة مكاتب المحاماة وإدارة القضايا والتوكيلات، يعمل بدون إنترنت.",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "EGP"
+          }
+        },
+        {
+          "@type": "ItemList",
+          "itemListElement": [
+            {
+              "@type": "SiteNavigationElement",
+              "position": 1,
+              "name": "دخول للمكتب",
+              "url": "https://minafathiaramnious.github.io/MentraLawyerLite/subscriptions.html"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "position": 2,
+              "name": "دليل التشغيل",
+              "url": "https://minafathiaramnious.github.io/MentraLawyerLite/Tutorial.html"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "position": 3,
+              "name": "المميزات",
+              "url": "https://minafathiaramnious.github.io/MentraLawyerLite/#features"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "position": 4,
+              "name": "النسخ والأسعار",
+              "url": "https://minafathiaramnious.github.io/MentraLawyerLite/#pricing"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+
+    <style>
+        /* Cairo font loaded via <link> tag with display=swap for faster rendering */
+        
+        body { 
+            font-family: 'Cairo', sans-serif; 
+            background-color: #F8FAFC; 
+            overflow-x: hidden; 
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .text-gold { color: #D4AF37; }
+        .bg-gold { background-color: #D4AF37; }
+        .border-gold { border-color: #D4AF37; }
+        .text-navy { color: #1E3A8A; }
+        .bg-navy { background-color: #1E3A8A; }
+
+        .fade-in-up { animation: fadeInUp 0.8s ease-out forwards; opacity: 0; transform: translateY(30px); }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        
+        .hero-gradient { background: linear-gradient(135deg, #1E3A8A 0%, #0F172A 100%); }
+        .glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-md border-b border-slate-100 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 md:h-20">
+                <!-- الشعار -->
+                <div class="flex items-center gap-1 md:gap-2 cursor-pointer">
+                    <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-gold flex items-center justify-center text-white shadow-lg shadow-yellow-500/30 shrink-0">
+                        <i class="fas fa-balance-scale text-sm md:text-xl"></i>
+                    </div>
+                    <span class="font-black text-lg md:text-2xl tracking-tight text-navy whitespace-nowrap">Mentra <span class="text-gold">Lawyer Lite</span>
+                    <span class="bg-gray-200 text-gray-700 text-[9px] md:text-[10px] font-black px-1.5 py-0.5 rounded ml-1 shrink-0">LOCAL</span>
+                </div>
+
+                <!-- الروابط (شاشات كبيرة) -->
+                <div class="hidden md:flex space-x-8 space-x-reverse font-bold text-sm text-slate-600 items-center">
+                    <!-- تمت إضافة رابط دليل التشغيل هنا -->
+                    <a href="Tutorial.html" class="text-emerald-600 hover:text-emerald-700 transition flex items-center gap-1 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100"><i class="fas fa-book-open"></i> دليل التشغيل بالصور</a>
+                    
+                    <a href="#features" class="hover:text-gold transition">المميزات</a>
+                    <a href="#pricing" class="hover:text-gold transition">النسخ والأسعار</a>
+                </div>
+
+                <!-- الأزرار -->
+                <div class="flex items-center gap-2 md:gap-3">
+                    <a href="https://wa.me/201211934816" target="_blank" class="hidden md:flex items-center gap-1 text-emerald-600 font-bold hover:text-emerald-700 transition">
+                        <i class="fab fa-whatsapp text-lg"></i> استفسار
+                    </a>
+                    <a href="subscriptions.html" class="bg-navy hover:bg-blue-900 text-white px-3 py-2 md:px-5 md:py-2.5 rounded-lg md:rounded-xl font-bold transition shadow-lg shadow-blue-900/20 text-xs md:text-sm whitespace-nowrap flex items-center gap-1">
+                        <i class="fas fa-laptop-code"></i> <span class="hidden sm:inline">افتح البرنامج</span> المجاني
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================= HERO SECTION ================= -->
+    <section class="relative pt-28 pb-16 md:pt-48 md:pb-32 hero-gradient overflow-hidden">
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-blue-500 blur-3xl opacity-20 animate-pulse"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-yellow-500 blur-3xl opacity-20 animate-pulse delay-1000"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span class="inline-block py-1 px-3 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold tracking-widest mb-6 fade-in-up">مجاني للأبد | يعمل بدون إنترنت</span>
+            
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-6 fade-in-up delay-1 px-2">
+                برنامج مكتبك على جهازك <br> <span class="text-gold">خصوصية تامة 100%</span>
+            </h1>
+            
+            <p class="mt-4 text-base md:text-xl text-slate-300 max-w-2xl mx-auto font-semibold mb-10 fade-in-up delay-2 px-4">
+                للزملاء المحامين الذين يفضلون الاحتفاظ ببيانات قضاياهم وعملائهم على أجهزتهم الشخصية بعيداً عن السحابة. يعمل عبر المتصفح أو كتطبيق للكمبيوتر.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-4 fade-in-up delay-2 px-4">
+                <!-- زر الدخول المتصفح -->
+                <a href="subscriptions.html" class="w-full sm:w-auto bg-gold hover:bg-yellow-500 text-white px-8 py-4 rounded-xl font-black text-base md:text-lg transition shadow-xl shadow-yellow-500/30 flex items-center justify-center gap-2 active:scale-95">
+                    <i class="fas fa-globe"></i> تشغيل عبر المتصفح
+                </a>
+                <!-- زر تحميل الديسكتوب (استبدل YOUR_DOWNLOAD_LINK_HERE برابطك) -->
+                <a href="https://minaaramnious.itch.io/mentralawyerlite" download class="w-full sm:w-auto glass-card text-white hover:bg-white/10 px-8 py-4 rounded-xl font-bold text-base md:text-lg transition flex items-center justify-center gap-2 active:scale-95">
+                    <i class="fab fa-windows"></i> تحميل نسخة الويندوز
+                </a>
+            </div>
+
+            <!-- رابط الدليل التعليمي في الواجهة -->
+            <div class="mt-8 fade-in-up delay-2">
+                <a href="Tutorial.html" class="inline-flex items-center gap-2 text-blue-200 hover:text-white font-bold text-sm md:text-base border-b border-blue-200 hover:border-white pb-1 transition-all">
+                    <i class="fas fa-photo-video text-gold"></i> شاهد دليل التشغيل خطوة بخطوة بالصور
+                </a>
+            </div>
+
+            <!-- إحصائيات سريعة -->
+            <div class="mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto border-t border-white/10 pt-8 fade-in-up delay-2">
+                <div class="text-center"><h4 class="text-2xl md:text-3xl font-black text-white">∞</h4><p class="text-[10px] md:text-xs text-slate-400 mt-2 font-bold">قضايا غير محدودة</p></div>
+                <div class="text-center"><h4 class="text-2xl md:text-3xl font-black text-white"><i class="fas fa-laptop-medical"></i></h4><p class="text-[10px] md:text-xs text-slate-400 mt-2 font-bold">حفظ محلي (LocalDB)</p></div>
+                <div class="text-center"><h4 class="text-2xl md:text-3xl font-black text-white"><i class="fas fa-file-export"></i></h4><p class="text-[10px] md:text-xs text-slate-400 mt-2 font-bold">تصدير يدوي للبيانات</p></div>
+                <div class="text-center"><h4 class="text-2xl md:text-3xl font-black text-white"><i class="fas fa-shield-alt"></i></h4><p class="text-[10px] md:text-xs text-slate-400 mt-2 font-bold">خصوصية تامة</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= FEATURES SECTION ================= -->
+    <section id="features" class="py-16 md:py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+                <span class="text-gold font-bold text-sm tracking-wider uppercase mb-2 block">بكل شفافية</span>
+                <h2 class="text-2xl md:text-4xl font-black text-navy mb-4">ماذا تقدم النسخة المجانية وماذا ينقصها؟</h2>
+                <p class="text-sm md:text-base text-slate-500 font-semibold">نحن نؤمن بالوضوح التام. إليك القدرات الحقيقية للنسخة المحلية المتوفرة بين يديك الآن.</p>
+            </div>
+
+            <!-- الميزات المجانية -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6">
+                <div class="bg-slate-50 p-6 md:p-8 rounded-2xl border border-emerald-200 shadow-sm relative">
+                    <div class="absolute top-4 left-4 text-emerald-500 text-[10px] font-black bg-emerald-100 px-2 py-1 rounded">متاح مجاناً</div>
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-lg md:text-xl mb-4"><i class="fas fa-folder-open"></i></div>
+                    <h3 class="text-lg md:text-xl font-bold text-navy mb-2">أرشفة القضايا والعملاء</h3>
+                    <p class="text-slate-600 text-xs md:text-sm font-semibold">إضافة عدد لا نهائي من القضايا والعملاء وتسجيل بياناتهم وحالاتهم بمرونة تامة على جهازك.</p>
+                </div>
+
+                <div class="bg-slate-50 p-6 md:p-8 rounded-2xl border border-emerald-200 shadow-sm relative">
+                    <div class="absolute top-4 left-4 text-emerald-500 text-[10px] font-black bg-emerald-100 px-2 py-1 rounded">متاح مجاناً</div>
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-lg md:text-xl mb-4"><i class="fas fa-calendar-alt"></i></div>
+                    <h3 class="text-lg md:text-xl font-bold text-navy mb-2">أجندة الجلسات المحلية</h3>
+                    <p class="text-slate-600 text-xs md:text-sm font-semibold">تسجيل الجلسات ومتابعة رول المحكمة اليومي من خلال المتصفح الخاص بجهازك.</p>
+                </div>
+
+                <div class="bg-slate-50 p-6 md:p-8 rounded-2xl border border-emerald-200 shadow-sm relative">
+                    <div class="absolute top-4 left-4 text-emerald-500 text-[10px] font-black bg-emerald-100 px-2 py-1 rounded">متاح مجاناً</div>
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-lg md:text-xl mb-4"><i class="fas fa-building"></i></div>
+                    <h3 class="text-lg md:text-xl font-bold text-navy mb-2">تعدد المكاتب (بنفس الجهاز)</h3>
+                    <p class="text-slate-600 text-xs md:text-sm font-semibold">يمكنك إنشاء أكثر من حساب لمكتب محاماة مختلف وإدارتهم جميعاً من نفس الموبايل أو الكمبيوتر.</p>
+                </div>
+            </div>
+
+            <!-- الميزات المدفوعة -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                <div class="bg-rose-50 p-6 md:p-8 rounded-2xl border border-rose-200 shadow-sm relative opacity-90">
+                    <div class="absolute top-4 left-4 text-rose-500 text-[10px] font-black bg-rose-100 px-2 py-1 rounded">نسخة سحابية مدفوعة</div>
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-rose-100 text-rose-600 rounded-xl flex items-center justify-center text-lg md:text-xl mb-4"><i class="fas fa-sync-alt"></i></div>
+                    <h3 class="text-lg md:text-xl font-bold text-rose-900 mb-2">المزامنة والعمل الجماعي</h3>
+                    <p class="text-rose-700/80 text-xs md:text-sm font-semibold">النسخة المجانية تحفظ البيانات داخل المتصفح الحالي فقط. النسخة المدفوعة تتيح لك ربط الموبايل بالكمبيوتر، وإضافة سكرتارية وفريق عمل ليدخلوا البيانات معاً في نفس الوقت.</p>
+                </div>
+
+                <div class="bg-rose-50 p-6 md:p-8 rounded-2xl border border-rose-200 shadow-sm relative opacity-90">
+                    <div class="absolute top-4 left-4 text-rose-500 text-[10px] font-black bg-rose-100 px-2 py-1 rounded">نسخة سحابية مدفوعة</div>
+                    <div class="w-10 h-10 md:w-12 md:h-12 bg-rose-100 text-rose-600 rounded-xl flex items-center justify-center text-lg md:text-xl mb-4"><i class="fas fa-cloud-upload-alt"></i></div>
+                    <h3 class="text-lg md:text-xl font-bold text-rose-900 mb-2">الرفع السحابي للمستندات (PDF/صور)</h3>
+                    <p class="text-rose-700/80 text-xs md:text-sm font-semibold">النسخة المدفوعة تتيح أرشيف سحابي كامل لملفاتك لضمان عدم ضياعها أو تأثرها بمساحة التخزين المحلية.</p>
+                </div>
+            </div>
+            
+            <div class="mt-8 md:mt-12 bg-amber-50 border border-amber-200 rounded-2xl p-5 md:p-6 flex flex-col md:flex-row gap-4 items-center md:items-start max-w-4xl mx-auto text-center md:text-right">
+                <i class="fas fa-exclamation-triangle text-amber-500 text-3xl md:text-2xl md:mt-1"></i>
+                <div>
+                    <h4 class="font-bold text-amber-800 text-base md:text-lg mb-2">تنبيه هام جداً لمستخدمي النسخة المجانية</h4>
+                    <p class="text-amber-700 text-xs md:text-sm font-semibold leading-relaxed">
+                        بما أن بياناتك محفوظة محلياً (Offline) عبر تقنية المتصفح، <strong>يجب عليك استخدام زر "النسخ الاحتياطي" الموجود داخل التطبيق بشكل دوري</strong>. إذا قمت بعمل "مسح بيانات المتصفح - Clear Data" سيتم مسح بيانات مكتبك ولن نتمكن من استرجاعها لك!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= PRICING SECTION ================= -->
+    <section id="pricing" class="py-16 md:py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12 md:mb-16">
+                <h2 class="text-2xl md:text-4xl font-black text-navy mb-4">متى تحتاج للترقية؟</h2>
+                <p class="text-sm md:text-base text-slate-500 font-semibold">إذا كنت محامياً مستقلاً وتعمل من جهاز واحد، النسخة المجانية تكفيك تماماً. أما إذا كبر مكتبك واحتجت للعمل مع فريقك من أي مكان، فإليك الحل.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
+                
+                <!-- Free Plan -->
+                <div class="bg-white rounded-3xl p-6 md:p-8 border-2 border-emerald-500 shadow-lg relative flex flex-col justify-between">
+                    <div>
+                        <div class="absolute top-0 right-1/2 translate-x-1/2 -mt-3 md:-mt-4 bg-emerald-500 text-white text-xs md:text-sm font-black px-4 py-1 rounded-full whitespace-nowrap">النسخة الحالية</div>
+                        <h3 class="text-xl md:text-2xl font-black text-navy mt-4 text-center">النسخة المحلية (Offline)</h3>
+                        <div class="text-center my-4 md:my-6"><span class="text-3xl md:text-4xl font-black text-emerald-500">مجانـــاً</span><span class="text-slate-500 text-xs md:text-sm font-bold block mt-1">للأبد، بدون أي رسوم مخفية</span></div>
+                        <ul class="space-y-3 md:space-y-4 mb-6 md:mb-8 text-xs md:text-sm font-semibold text-slate-600">
+                            <li><i class="fas fa-check text-emerald-500 mr-2 w-5"></i> قاعدة بيانات محلية (سرية 100%)</li>
+                            <li><i class="fas fa-check text-emerald-500 mr-2 w-5"></i> يعمل على المتصفح الحالي فقط</li>
+                            <li><i class="fas fa-check text-emerald-500 mr-2 w-5"></i> عدد قضايا غير محدود</li>
+                            <li><i class="fas fa-check text-emerald-500 mr-2 w-5"></i> تصدير البيانات (Backup) يدوياً</li>
+                            <li class="text-slate-400"><i class="fas fa-times text-rose-300 mr-2 w-5"></i> لا يمكن الدخول من الموبايل والكمبيوتر معاً</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- أزرار الدخول في النسخة المجانية -->
+                    <div class="space-y-3">
+                        <a href="subscriptions.html" class="w-full flex items-center justify-center gap-2 bg-slate-100 text-navy hover:bg-slate-200 font-bold py-3 md:py-4 rounded-xl transition active:scale-95 text-sm md:text-base">
+                            <i class="fas fa-globe"></i> دخول عبر المتصفح
+                        </a>
+                        <!-- زر الديسكتوب (استبدل الرابط هنا أيضاً) -->
+                        <a href="https://minaaramnious.itch.io/mentralawyerlite" download class="w-full flex items-center justify-center gap-2 border-2 border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-slate-300 font-bold py-3 md:py-4 rounded-xl transition active:scale-95 text-sm md:text-base">
+                            <i class="fab fa-windows"></i> تحميل تطبيق الكمبيوتر
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Cloud SaaS Plan -->
+                <div class="relative group mt-10 lg:mt-0">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-gold/50 to-yellow-600/30 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                    
+                    <div class="relative bg-[#0a192f] rounded-3xl p-8 border-2 border-gold/50 shadow-2xl overflow-hidden lg:-translate-y-6 transition-transform duration-500 hover:-translate-y-8 h-full flex flex-col justify-between">
+                        
+                        <div>
+                            <div class="absolute -right-4 -top-4 text-white/5 text-8xl transform rotate-12"><i class="fas fa-cloud"></i></div>
+                            <div class="absolute top-0 right-1/2 translate-x-1/2">
+                                <span class="bg-gradient-to-r from-gold to-yellow-600 text-white text-[10px] md:text-xs font-black px-6 py-1.5 rounded-b-xl shadow-lg uppercase tracking-widest">الخيار الاحترافي</span>
+                            </div>
+
+                            <div class="text-center mt-6">
+                                <h3 class="text-2xl md:text-3xl font-black text-white tracking-tight">نسخة الأعمال <span class="text-gold">Cloud</span></h3>
+                                <div class="mt-6 p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                                    <span class="text-4xl md:text-5xl font-black text-gold">مدفوعة</span>
+                                    <div class="flex flex-col mt-2">
+                                        <span class="text-blue-200 text-sm font-bold">اشتراك شهري أو سنوي</span>
+                                        <span class="text-gold/60 text-[10px] font-bold italic">نظام تقسيط مريح للمكاتب الناشئة</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <ul class="mt-8 space-y-4 relative z-10 mb-8">
+                                <li class="flex items-start gap-3 group/item">
+                                    <div class="flex-shrink-0 w-6 h-6 rounded-full bg-gold/20 flex items-center justify-center mt-0.5"><i class="fas fa-check text-gold text-[10px]"></i></div>
+                                    <span class="text-slate-300 text-sm font-semibold group-hover/item:text-white transition-colors">مزامنة لحظية بين جميع أجهزتك</span>
+                                </li>
+                                <li class="flex items-start gap-3 group/item">
+                                    <div class="flex-shrink-0 w-6 h-6 rounded-full bg-gold/20 flex items-center justify-center mt-0.5"><i class="fas fa-check text-gold text-[10px]"></i></div>
+                                    <span class="text-slate-300 text-sm font-semibold group-hover/item:text-white transition-colors">صلاحيات مخصصة (سكرتارية / محامين)</span>
+                                </li>
+                                <li class="flex items-start gap-3 group/item">
+                                    <div class="flex-shrink-0 w-6 h-6 rounded-full bg-gold/20 flex items-center justify-center mt-0.5"><i class="fas fa-check text-gold text-[10px]"></i></div>
+                                    <span class="text-slate-300 text-sm font-semibold group-hover/item:text-white transition-colors">خزنة مستندات رقمية (PDF وصور)</span>
+                                </li>
+                                <li class="flex items-start gap-3 group/item">
+                                    <div class="flex-shrink-0 w-6 h-6 rounded-full bg-gold/20 flex items-center justify-center mt-0.5"><i class="fas fa-check text-gold text-[10px]"></i></div>
+                                    <span class="text-slate-300 text-sm font-semibold group-hover/item:text-white transition-colors">نسخ احتياطي يومي تلقائي</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <a href="https://wa.me/201211934816" target="_blank" class="w-full overflow-hidden relative group/btn flex items-center justify-center bg-gradient-to-r from-gold to-yellow-600 text-navy font-black py-4 rounded-2xl transition-all shadow-[0_10px_20px_-10px_rgba(212,175,55,0.5)] hover:shadow-[0_15px_30px_-10px_rgba(212,175,55,0.6)] active:scale-95">
+                                <div class="absolute inset-0 w-1/2 h-full bg-white/20 skew-x-[-25deg] -translate-x-full group-hover/btn:animate-[shine_0.75s_infinite]"></div>
+                                <i class="fab fa-whatsapp text-xl ml-2"></i><span class="relative z-10 text-base">اطلب النسخة الاحترافية الآن</span>
+                            </a>
+                            <p class="text-center text-[10px] text-slate-500 mt-4 font-bold uppercase tracking-widest">Premium 24/7 VIP Support</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= SUPPORT SECTION ================= -->
+    <section id="support" class="py-16 md:py-20 bg-white border-y border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-8 md:gap-12">
+            <div class="w-full lg:w-1/2">
+                <div class="bg-blue-50/50 rounded-3xl p-8 md:p-12 flex items-center justify-center border border-blue-100/50">
+                    <i class="fas fa-user-tie text-7xl md:text-9xl text-blue-200"></i>
+                </div>
+            </div>
+            <div class="w-full lg:w-1/2 text-center lg:text-right">
+                <div class="w-12 h-12 md:w-16 md:h-16 bg-blue-50 text-blue-600 rounded-xl md:rounded-2xl flex items-center justify-center text-2xl md:text-3xl mb-4 md:mb-6 mx-auto lg:mx-0"><i class="fas fa-headset"></i></div>
+                <h2 class="text-2xl md:text-4xl font-black text-navy mb-3 md:mb-4">للترقية أو الاستفسار.. نحن هنا</h2>
+                <p class="text-sm md:text-lg text-slate-600 font-semibold leading-relaxed mb-6 md:mb-8">
+                    هل قمت بتجربة النسخة المجانية وأعجبتك؟ هل ترغب في نقل مكتبك بالكامل إلى السحابة للعمل مع فريقك ورفع مستنداتك؟ تواصل معنا مباشرة لمناقشة الخطة المناسبة لحجم مكتبك.
+                </p>
+                
+                <div class="inline-block bg-slate-50 p-4 md:p-6 rounded-2xl border border-slate-200 w-full lg:w-auto text-center lg:text-right hover:border-emerald-200 hover:bg-emerald-50 transition-colors">
+                    <p class="text-xs md:text-sm font-bold text-slate-500 mb-2">للدعم الفني والمبيعات (واتساب أو اتصال):</p>
+                    <a href="https://wa.me/201211934816" target="_blank" class="text-2xl md:text-3xl font-black text-emerald-600 hover:text-emerald-700 transition flex items-center justify-center lg:justify-start gap-2 md:gap-3 dir-ltr">
+                        <i class="fab fa-whatsapp"></i> 01211934816
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-slate-900 pt-12 md:pt-16 pb-6 md:pb-8 border-t-4 border-gold">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-8 md:mb-12">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded bg-gold flex items-center justify-center text-white"><i class="fas fa-balance-scale text-sm"></i></div>
+                    <span class="font-black text-lg md:text-xl text-white">Mentra<span class="text-gold">Lawyer Lite</span> <span class="text-[10px] font-normal text-slate-400 border border-slate-700 px-1.5 py-0.5 rounded ml-1">Offline Edition</span></span>
+                </div>
+                
+                <div class="flex flex-col md:flex-row gap-4 items-center">
+                    <!-- رابط التوتريال في الفوتر -->
+                    <a href="Tutorial.html" class="text-slate-400 hover:text-white text-sm font-bold flex items-center gap-2 transition-colors">
+                        <i class="fas fa-question-circle"></i> دليل الاستخدام
+                    </a>
+                    
+                    <div class="bg-slate-800/50 border border-slate-700 rounded-full px-4 py-2 text-slate-300 font-bold text-xs md:text-sm flex items-center gap-2">
+                        <i class="fas fa-phone-alt text-gold"></i> دعم النسخة المدفوعة: <span class="dir-ltr text-white">01211934816</span>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-6 md:pt-8 text-center flex flex-col md:flex-row justify-between items-center gap-3 md:gap-4">
+                <p class="text-xs md:text-sm font-semibold text-slate-500">&copy; 2024 MentraLawyerLite. جميع الحقوق محفوظة.</p>
+                <div class="text-[10px] md:text-xs font-bold text-slate-600 bg-slate-800 px-3 py-1 rounded-full">
+                    صُنع للمحامين المتميزين
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        @keyframes shine { 100% { translate: 250%; } }
+    </style>
+<script>
+    // التأكد من أن المتصفح يدعم Service Worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw-v1.js') // تأكد من اسم ملف الـ Service Worker الخاص بك هنا
+            .then((registration) => {
+                console.log('✅ تم تسجيل الـ Service Worker بنجاح، النطاق:', registration.scope);
+
+                // الاستماع لأي تحديث جديد (مثلاً عند الانتقال من v1 إلى v2)
+                registration.addEventListener('updatefound', () => {
+                    const newWorker = registration.installing;
+                    if (newWorker) {
+                        newWorker.addEventListener('statechange', () => {
+                            // إذا انتهى تثبيت الملف الجديد وكان هناك ملف قديم يعمل بالفعل
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                console.log('🔄 تم العثور على تحديث جديد (v2)، جاري إعادة التحميل...');
+                                // إعادة تحميل الصفحة تلقائياً لتطبيق التحديث فوراً
+                                window.location.reload();
+                            }
+                        });
+                    }
+                });
+            })
+            .catch((error) => {
+                console.error('❌ فشل تسجيل الـ Service Worker:', error);
+            });
+    });
+
+    // لضمان دمج التحكم فوراً عند تفعيل السيرفيس وركر الجديد وعمل الكود بشكل متزامن
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+            window.location.reload();
+            refreshing = true;
+        }
+    });
+}
+</script>
+    <!-- ================= PWA & SCRIPTS (تم التحديث) ================= -->
+
+</body>
+</html>

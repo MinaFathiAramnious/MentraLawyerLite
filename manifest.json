@@ -1,0 +1,23 @@
+{
+  "name": "MentraLawyer Offline",
+  "short_name": "MentraLawyerLite",
+  "description": "برنامج إدارة مكاتب المحاماة المجاني - يعمل بدون إنترنت",
+  "start_url": "./dashboard.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#F8FAFC",
+  "theme_color": "#1E3A8A",
+  "icons": [
+    {
+      "src": "assets/log.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/log.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

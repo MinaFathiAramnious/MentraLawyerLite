@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0F172A">
+    <title>MentraLawyer - بوابة الدخول</title>
+    <link rel="icon" href="assets/log.png">
+
+    <!-- تحسين التحميل: preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+
+    <!-- خط Cairo بشكل غير معطّل للصفحة -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap"></noscript>
+
+    <!-- Tailwind CSS (defer) -->
+    <script src="assets/Tailwind.js" defer></script>
+    <!-- Font Awesome (non-blocking) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    
+    <!-- React & ReactDOM من cdnjs (أسرع من unpkg) -->
+    <script crossorigin src="assets/react.production.min.js"></script>
+    <script crossorigin src="assets/react-dom.production.min.js"></script>
+    <!-- Babel (تحميل متوازٍ مع React) -->
+    <script src="assets/babel.min.js" defer></script>
+    
+    <!-- Dexie.js -->
+    <script src="assets/dexie.min.js"></script>
+    
+    <!-- ملف قاعدة البيانات الموحد -->
+    <script src="database.js"></script>
+
+    <style>
+        body { 
+            font-family: 'Cairo', sans-serif; 
+            background: #0F172A; 
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* تأثيرات الخلفية المتحركة */
+        .bg-shapes { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+        .shape { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; animation: float 20s infinite alternate; }
+        .shape-1 { background: #1E3A8A; width: 400px; height: 400px; top: -100px; right: -100px; }
+        .shape-2 { background: #D4AF37; width: 300px; height: 300px; bottom: -50px; left: -50px; animation-delay: -5s; }
+        
+        @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-30px, 50px) scale(1.1); } }
+
+        /* تخصيص حقول الإدخال */
+        .input-group { position: relative; transition: all 0.3s ease; }
+        .input-field {
+            width: 100%; padding: 1rem 1rem 1rem 3rem; border-radius: 1rem;
+            border: 2px solid #E2E8F0; background: #F8FAFC; outline: none;
+            color: #1E293B; font-weight: 700; transition: all 0.3s ease;
+        }
+        .input-field:focus { border-color: #D4AF37; background: #FFFFFF; box-shadow: 0 4px 20px rgba(212, 175, 55, 0.15); }
+        .input-icon { position: absolute; top: 50%; left: 1.25rem; transform: translateY(-50%); color: #94A3B8; transition: all 0.3s ease; }
+        .input-field:focus ~ .input-icon { color: #D4AF37; }
+        
+        /* إخفاء شريط التمرير للقوائم الأفقية */
+        ::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        
+        .fade-up { animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div class="bg-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+    </div>
+
+    <!-- زر الرجوع للصفحة الرئيسية -->
+    <a href="index.html" class="absolute top-6 left-6 z-50 flex items-center gap-2 text-white/70 hover:text-white transition-colors text-sm font-bold bg-white/5 hover:bg-white/10 px-4 py-2 rounded-xl backdrop-blur-sm border border-white/10">
+        <i class="fas fa-arrow-left"></i> الرئيسية
+    </a>
+
+        <!-- شاشة تحميل سريعة تظهر فوراً -->
+    <style>
+        #sub-loader {
+            position:fixed;inset:0;background:#0F172A;
+            display:flex;flex-direction:column;align-items:center;justify-content:center;
+            z-index:9999;transition:opacity 0.4s ease;
+        }
+        #sub-loader.hidden{opacity:0;pointer-events:none;}
+        .sub-spinner{width:48px;height:48px;border:4px solid rgba(255,255,255,0.1);border-top-color:#D4AF37;border-radius:50%;animation:spin2 0.8s linear infinite;}
+        @keyframes spin2{to{transform:rotate(360deg);}}
+    </style>
+    <div id="sub-loader">
+        <div style="width:56px;height:56px;background:linear-gradient(135deg,#D4AF37,#ca8a04);border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;box-shadow:0 8px 25px rgba(212,175,55,0.4)">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+        </div>
+        <div class="sub-spinner"></div>
+        <p style="margin-top:14px;font-family:system-ui,sans-serif;font-weight:700;color:#94A3B8;font-size:13px">MentraLawyer جاري التحميل...</p>
+    </div>
+    <script>
+        var subLoader = document.getElementById("sub-loader");
+        document.addEventListener("DOMContentLoaded", function() {
+            var root = document.getElementById("root");
+            if (!root) return;
+            var subObs = new MutationObserver(function(){
+                if(root.children.length > 0){
+                    subLoader.classList.add("hidden");
+                    setTimeout(function(){subLoader.remove();},500);
+                    subObs.disconnect();
+                }
+            });
+            subObs.observe(root, {childList:true});
+        });
+    </script>
+    <div id="root" class="relative z-10 flex items-center justify-center min-h-screen p-4 sm:p-6"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function SubscriptionsApp() {
+            const [isChecking, setIsChecking] = useState(true);
+            const [activeTab, setActiveTab] = useState('login'); 
+            const [loading, setLoading] = useState(false);
+            const [error, setError] = useState('');
+            const [showPassword, setShowPassword] = useState(false);
+            
+            // حالات تسجيل الدخول السريع (المحمي بكلمة مرور)
+            const [savedUsers, setSavedUsers] = useState([]);
+            const [selectedSavedUser, setSelectedSavedUser] = useState(null);
+            const [fastLoginPassword, setFastLoginPassword] = useState('');
+
+            const [formData, setFormData] = useState({
+                firmName: '', ownerName: '', email: '', password: ''
+            });
+
+            // التحقق من الجلسة وتهيئة قاعدة البيانات
+            useEffect(() => {
+                const initApp = async () => {
+                    try {
+                        // 1. الدخول التلقائي: إذا كان مسجل دخول بالفعل
+                        const activeSession = localStorage.getItem('MentraLocal_Session');
+                        if (activeSession) {
+                            window.location.replace('dashboard.html');
+                            return;
+                        }
+
+                        // تهيئة قاعدة البيانات
+                        if(window.initDatabase) await window.initDatabase();
+
+                        // 2. الدخول السريع: البحث عن كل المستخدمين المسجلين في هذا المتصفح
+                        const users = await window.db.users.toArray();
+                        if (users && users.length > 0) {
+                            let enrichedUsers = [];
+                            
+                            // جلب أسماء المكاتب لكل مستخدم
+                            for (let u of users) {
+                                const firm = await window.db.law_firms.get(u.firm_id);
+                                if (firm) {
+                                    enrichedUsers.push({ ...u, firm_name: firm.name });
+                                }
+                            }
+
+                            if (enrichedUsers.length > 0) {
+                                setSavedUsers(enrichedUsers);
+                                
+                                // تحديد آخر مستخدم كافتراضي
+                                const lastUserId = localStorage.getItem('MentraLocal_LastUserID');
+                                const defaultUser = enrichedUsers.find(u => u.id == lastUserId) || enrichedUsers[enrichedUsers.length - 1];
+                                
+                                setSelectedSavedUser(defaultUser);
+                                setActiveTab('fast-login');
+                            }
+                        }
+
+                        setTimeout(() => setIsChecking(false), 800);
+                    } catch (err) {
+                        console.error("خطأ في التهيئة:", err);
+                        setIsChecking(false);
+                    }
+                };
+                initApp();
+            }, []);
+
+            const handleChange = (e) => {
+                setFormData({ ...formData, [e.target.name]: e.target.value });
+                setError('');
+            };
+
+            // تسجيل الدخول العادي
+            const handleLogin = async (e) => {
+                e.preventDefault();
+                setLoading(true); setError('');
+                try {
+                    const { user, firm } = await window.FirmQueries.login(formData.email, formData.password);
+                    
+                    localStorage.setItem('MentraLocal_Session', JSON.stringify({
+                        user_id: user.id, firm_id: firm.id, name: user.name, role: user.role, firm_name: firm.name
+                    }));
+                    localStorage.setItem('MentraLocal_LastUserID', user.id);
+                    
+                    window.location.replace('dashboard.html');
+                } catch (err) {
+                    setError(err.message || "حدث خطأ غير متوقع");
+                    setLoading(false);
+                }
+            };
+
+            // تسجيل الدخول السريع (بإدخال الباسورد فقط)
+            const handleFastLogin = async (e) => {
+                e.preventDefault();
+                if (!selectedSavedUser) return;
+                if (!fastLoginPassword) {
+                    setError("الرجاء إدخال كلمة المرور");
+                    return;
+                }
+
+                setLoading(true); setError('');
+                try {
+                    // نستخدم نفس دالة التحقق من صحة الباسورد لضمان الأمان
+                    const { user, firm } = await window.FirmQueries.login(selectedSavedUser.email, fastLoginPassword);
+                    
+                    localStorage.setItem('MentraLocal_Session', JSON.stringify({
+                        user_id: user.id, firm_id: firm.id, name: user.name, role: user.role, firm_name: firm.name
+                    }));
+                    localStorage.setItem('MentraLocal_LastUserID', user.id);
+                    
+                    window.location.replace('dashboard.html');
+                } catch (err) {
+                    setError("كلمة المرور غير صحيحة");
+                    setLoading(false);
+                }
+            };
+
+            // إنشاء مكتب جديد
+            const handleRegister = async (e) => {
+                e.preventDefault();
+                setLoading(true); setError('');
+                try {
+                    const existingUser = await window.db.users.where('email').equalsIgnoreCase(formData.email.trim()).first();
+                    if(existingUser) throw new Error("هذا البريد الإلكتروني مسجل مسبقاً في مكتب آخر.");
+
+                    const { firmId, userId } = await window.FirmQueries.createFirm(
+                        formData.firmName, formData.ownerName, formData.email, formData.password
+                    );
+
+                    localStorage.setItem('MentraLocal_Session', JSON.stringify({
+                        user_id: userId, firm_id: firmId, name: formData.ownerName, role: 'owner', firm_name: formData.firmName
+                    }));
+                    localStorage.setItem('MentraLocal_LastUserID', userId);
+                    
+                    window.location.replace('dashboard.html');
+                } catch (err) {
+                    setError(err.message || "حدث خطأ غير متوقع");
+                    setLoading(false);
+                }
+            };
+
+            // شاشة التحميل الأولية
+            if (isChecking) {
+                return (
+                    <div className="flex flex-col items-center justify-center fade-up">
+                        <div className="w-20 h-20 bg-gradient-to-br from-[#D4AF37] to-yellow-600 rounded-2xl flex items-center justify-center text-white text-4xl shadow-[0_0_40px_rgba(212,175,55,0.4)] animate-pulse mb-6">
+                            <i className="fas fa-balance-scale"></i>
+                        </div>
+                        <h2 className="text-2xl font-black text-white tracking-wide">Mentra<span className="text-[#D4AF37]">Lawyer Lite</span></h2>
+                        <p className="text-slate-400 font-bold text-sm mt-2">جاري فحص حالة الحساب...</p>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="w-full max-w-[420px] fade-up">
+                    
+                    {/* الشعار والنصوص الترحيبية */}
+                    <div className="text-center mb-8">
+                        <div className="w-16 h-16 bg-gradient-to-br from-[#D4AF37] to-yellow-600 mx-auto rounded-2xl flex items-center justify-center text-white text-3xl shadow-lg shadow-yellow-600/20 mb-4 transform transition hover:scale-105">
+                            <i className="fas fa-balance-scale"></i>
+                        </div>
+                        <h1 className="text-3xl font-black text-white tracking-tight mb-1">Mentra<span className="text-[#D4AF37]">Lawyer Lite</span></h1>
+                        <span className="inline-block bg-white/10 text-slate-300 backdrop-blur-md border border-white/20 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase mt-2">
+                            <i className="fas fa-shield-alt text-emerald-400 mr-1"></i> Offline Edition
+                        </span>
+                    </div>
+
+                    {/* البطاقة الرئيسية */}
+                    <div className="bg-white rounded-[2rem] shadow-2xl overflow-hidden relative border border-slate-100">
+                        
+                        {/* نظام التبويبات */}
+                        {activeTab !== 'fast-login' && (
+                            <div className="flex p-2 bg-slate-50 border-b border-slate-100">
+                                <button 
+                                    onClick={() => {setActiveTab('login'); setError('');}} 
+                                    className={`flex-1 py-3 text-sm font-black rounded-xl transition-all duration-300 ${activeTab === 'login' ? 'bg-white text-[#1E3A8A] shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                                >
+                                    الدخول لمكتبي
+                                </button>
+                                <button 
+                                    onClick={() => {setActiveTab('register'); setError('');}} 
+                                    className={`flex-1 py-3 text-sm font-black rounded-xl transition-all duration-300 ${activeTab === 'register' ? 'bg-white text-[#1E3A8A] shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                                >
+                                    إنشاء مكتب جديد
+                                </button>
+                            </div>
+                        )}
+
+                        <div className="p-6 sm:p-8">
+                            
+                            {/* رسالة الخطأ */}
+                            {error && (
+                                <div className="bg-rose-50 border border-rose-200 text-rose-600 p-4 rounded-2xl text-xs font-bold mb-6 flex items-start gap-3 fade-up">
+                                    <i className="fas fa-exclamation-circle text-lg mt-0.5"></i>
+                                    <span className="leading-relaxed">{error}</span>
+                                </div>
+                            )}
+
+                            {/* ====== نموذج الدخول السريع (اختيار الحساب وإدخال الباسورد) ====== */}
+                            {activeTab === 'fast-login' && selectedSavedUser && (
+                                <form onSubmit={handleFastLogin} className="text-center fade-up space-y-5">
+                                    
+                                    {/* قائمة اختيار المكاتب (تظهر فقط إذا كان هناك أكثر من مكتب محفوظ) */}
+                                    {savedUsers.length > 1 && (
+                                        <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-2 mb-2 justify-center">
+                                            {savedUsers.map(u => (
+                                                <button 
+                                                    key={u.id} type="button"
+                                                    onClick={() => { setSelectedSavedUser(u); setFastLoginPassword(''); setError(''); }}
+                                                    className={`p-2 rounded-2xl border-2 transition-all shrink-0 w-20 flex flex-col items-center ${selectedSavedUser.id === u.id ? 'border-[#D4AF37] bg-yellow-50/50 scale-105' : 'border-slate-100 bg-white opacity-60 hover:opacity-100'}`}
+                                                >
+                                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black mb-1.5 transition-colors ${selectedSavedUser.id === u.id ? 'bg-[#1E3A8A] text-white' : 'bg-slate-200 text-slate-500'}`}>
+                                                        {u.name.charAt(0)}
+                                                    </div>
+                                                    <p className="text-[9px] font-bold text-slate-700 whitespace-nowrap truncate w-full px-1">{u.firm_name}</p>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {/* معلومات الحساب المختار */}
+                                    <div className="mb-2">
+                                        {savedUsers.length === 1 && (
+                                            <div className="w-20 h-20 bg-[#1E3A8A] text-white rounded-full flex items-center justify-center text-3xl font-black mx-auto mb-4 border-4 border-slate-50 shadow-lg">
+                                                {selectedSavedUser.name.charAt(0)}
+                                            </div>
+                                        )}
+                                        <h2 className="text-xl font-black text-slate-800">أهلاً بك، {selectedSavedUser.name.split(' ')[0]}</h2>
+                                        <p className="text-sm font-bold text-[#D4AF37] mt-1"><i className="fas fa-building mr-1"></i> {selectedSavedUser.firm_name}</p>
+                                    </div>
+
+                                    {/* حقل كلمة المرور للتأكيد */}
+                                    <div className="input-group relative text-right">
+                                        <input type={showPassword ? "text" : "password"} value={fastLoginPassword} onChange={(e) => setFastLoginPassword(e.target.value)} required dir="ltr" className="input-field text-left placeholder:text-right pr-12" placeholder="أدخل كلمة المرور للمكتب" />
+                                        <i className="fas fa-lock input-icon"></i>
+                                        <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute top-1/2 right-4 -translate-y-1/2 text-slate-400 hover:text-[#1E3A8A] transition-colors focus:outline-none">
+                                            <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                        </button>
+                                    </div>
+
+                                    <button type="submit" disabled={loading} className="w-full bg-[#1E3A8A] hover:bg-blue-900 text-white font-black py-4 rounded-2xl shadow-lg shadow-blue-900/20 transition-all flex justify-center items-center gap-2 text-lg">
+                                        {loading ? <i className="fas fa-circle-notch fa-spin"></i> : <><i className="fas fa-sign-in-alt"></i> تأكيد الدخول</>}
+                                    </button>
+                                    
+                                    <button type="button" onClick={() => setActiveTab('login')} className="w-full text-slate-500 hover:text-slate-800 font-bold text-sm transition-colors mt-2 pb-2">
+                                        الدخول بحساب غير محفوظ
+                                    </button>
+                                </form>
+                            )}
+
+                            {/* ====== نموذج تسجيل الدخول العادي ====== */}
+                            {activeTab === 'login' && (
+                                <form onSubmit={handleLogin} className="space-y-5 fade-up">
+                                    <div className="input-group">
+                                        <input type="email" name="email" value={formData.email} onChange={handleChange} required dir="ltr" className="input-field text-left placeholder:text-right" placeholder="البريد الإلكتروني" />
+                                        <i className="fas fa-envelope input-icon"></i>
+                                    </div>
+                                    <div className="input-group relative">
+                                        <input type={showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange} required dir="ltr" className="input-field text-left placeholder:text-right pr-12" placeholder="كلمة المرور" />
+                                        <i className="fas fa-lock input-icon"></i>
+                                        <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute top-1/2 right-4 -translate-y-1/2 text-slate-400 hover:text-[#1E3A8A] transition-colors focus:outline-none">
+                                            <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                        </button>
+                                    </div>
+                                    <button type="submit" disabled={loading} className="w-full bg-[#1E3A8A] hover:bg-blue-900 text-white font-black py-4 rounded-2xl shadow-lg shadow-blue-900/20 transition-all mt-2 flex justify-center items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed text-lg">
+                                        {loading ? <i className="fas fa-circle-notch fa-spin"></i> : 'دخول للمكتب'}
+                                    </button>
+                                    {savedUsers.length > 0 && (
+                                        <button type="button" onClick={() => setActiveTab('fast-login')} className="w-full text-center text-slate-500 hover:text-slate-800 font-bold text-sm transition-colors pt-2">
+                                            <i className="fas fa-bolt text-[#D4AF37] mr-1"></i> العودة لقائمة المكاتب المحفوظة
+                                        </button>
+                                    )}
+                                </form>
+                            )}
+
+                            {/* ====== نموذج إنشاء مكتب ====== */}
+                            {activeTab === 'register' && (
+                                <form onSubmit={handleRegister} className="space-y-4 fade-up">
+                                    <div className="input-group">
+                                        <input type="text" name="firmName" value={formData.firmName} onChange={handleChange} required className="input-field pr-4" placeholder="اسم مكتب المحاماة" />
+                                        <i className="fas fa-building input-icon"></i>
+                                    </div>
+                                    <div className="input-group">
+                                        <input type="text" name="ownerName" value={formData.ownerName} onChange={handleChange} required className="input-field pr-4" placeholder="اسم المحامي المدير" />
+                                        <i className="fas fa-user-tie input-icon"></i>
+                                    </div>
+                                    <div className="input-group">
+                                        <input type="email" name="email" value={formData.email} onChange={handleChange} required dir="ltr" className="input-field text-left placeholder:text-right" placeholder="البريد الإلكتروني" />
+                                        <i className="fas fa-envelope input-icon"></i>
+                                    </div>
+                                    <div className="input-group relative">
+                                        <input type={showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange} required dir="ltr" className="input-field text-left placeholder:text-right pr-12" placeholder="كلمة المرور (6 أحرف على الأقل)" minLength="6" />
+                                        <i className="fas fa-lock input-icon"></i>
+                                        <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute top-1/2 right-4 -translate-y-1/2 text-slate-400 hover:text-[#1E3A8A] transition-colors focus:outline-none">
+                                            <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                        </button>
+                                    </div>
+                                    <button type="submit" disabled={loading} className="w-full bg-gradient-to-l from-[#D4AF37] to-yellow-500 hover:to-yellow-600 text-white font-black py-4 rounded-2xl shadow-lg shadow-yellow-500/30 transition-all mt-2 flex justify-center items-center gap-2 disabled:opacity-70 text-lg">
+                                        {loading ? <i className="fas fa-circle-notch fa-spin"></i> : 'تأسيس المكتب وبدء العمل'}
+                                    </button>
+                                </form>
+                            )}
+
+                        </div>
+                        
+                        {/* تذييل البطاقة لحماية الخصوصية */}
+                        <div className="bg-slate-50 p-4 text-center border-t border-slate-100">
+                            <p className="text-[11px] font-bold text-slate-400 flex items-center justify-center gap-2">
+                                <i className="fas fa-lock text-emerald-500"></i> بياناتك محفوظة ومشفّرة على جهازك فقط
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<SubscriptionsApp />);
+    </script>
+    <script>
+    // التأكد من أن المتصفح يدعم Service Worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw-v1.js') // تأكد من اسم ملف الـ Service Worker الخاص بك هنا
+            .then((registration) => {
+                console.log('✅ تم تسجيل الـ Service Worker بنجاح، النطاق:', registration.scope);
+
+                // الاستماع لأي تحديث جديد (مثلاً عند الانتقال من v1 إلى v2)
+                registration.addEventListener('updatefound', () => {
+                    const newWorker = registration.installing;
+                    if (newWorker) {
+                        newWorker.addEventListener('statechange', () => {
+                            // إذا انتهى تثبيت الملف الجديد وكان هناك ملف قديم يعمل بالفعل
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                console.log('🔄 تم العثور على تحديث جديد (v2)، جاري إعادة التحميل...');
+                                // إعادة تحميل الصفحة تلقائياً لتطبيق التحديث فوراً
+                                window.location.reload();
+                            }
+                        });
+                    }
+                });
+            })
+            .catch((error) => {
+                console.error('❌ فشل تسجيل الـ Service Worker:', error);
+            });
+    });
+
+    // لضمان دمج التحكم فوراً عند تفعيل السيرفيس وركر الجديد وعمل الكود بشكل متزامن
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+            window.location.reload();
+            refreshing = true;
+        }
+    });
+}
+</script>
+</body>
+</html>
