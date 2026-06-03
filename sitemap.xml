@@ -3,7 +3,7 @@
   
   <!-- الصفحة الرئيسية (أهم صفحة) -->
   <url>
-    <loc>https://minafathiaramnious.github.io/MentraLawyerLite/</loc>
+    <loc>https://mentratech1.github.io/MentraLawyerLite/</loc>
     <lastmod>2024-05-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -11,7 +11,7 @@
 
   <!-- صفحة دليل التشغيل (مهمة للكلمات المفتاحية) -->
   <url>
-    <loc>https://minafathiaramnious.github.io/MentraLawyerLite/Tutorial.html</loc>
+    <loc>https://mentratech1.github.io/MentraLawyerLite/Tutorial.html</loc>
     <lastmod>2024-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -19,7 +19,7 @@
 
   <!-- صفحة تسجيل الدخول / إنشاء المكتب -->
   <url>
-    <loc>https://minafathiaramnious.github.io/MentraLawyerLite/subscriptions.html</loc>
+    <loc>https://mentratech1.github.io/MentraLawyerLite/subscriptions.html</loc>
     <lastmod>2024-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

@@ -2,7 +2,7 @@
   "name": "MentraLawyer Offline",
   "short_name": "MentraLawyerLite",
   "description": "برنامج إدارة مكاتب المحاماة المجاني - يعمل بدون إنترنت",
-  "start_url": "./dashboard.html",
+  "start_url": "https://mentratech1.github.io/MentraLawyerLite/index.html",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#F8FAFC",

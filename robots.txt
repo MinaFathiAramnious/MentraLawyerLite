@@ -17,4 +17,4 @@ Disallow: /database.js
 Disallow: /sw.js
 
 # 3. رابط خريطة الموقع (استبدل الرابط برابط موقعك الحقيقي)
-Sitemap: https://minafathiaramnious.github.io/MentraLawyerLite/sitemap.xml
+Sitemap: https://mentratech1.github.io/MentraLawyerLite/sitemap.xml
